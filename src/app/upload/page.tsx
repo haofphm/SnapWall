@@ -88,7 +88,7 @@ export default function UploadPage({ searchParams }: Props) {
       {/* Content */}
       <div className="relative z-10 flex flex-col min-h-screen p-4 pb-8">
         {/* Header */}
-        <header className="w-full max-w-sm mx-auto text-center pt-10 pb-6">
+        <header className="w-full max-w-sm mx-auto relative pt-10 pb-6 text-center">
           <h1 className="text-2xl font-extrabold text-transparent bg-clip-text"
             style={{ backgroundImage: "linear-gradient(135deg, var(--color-primary), var(--color-primary-2))" }}>
             SnapWall
