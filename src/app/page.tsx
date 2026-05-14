@@ -76,7 +76,7 @@ export default function Home() {
             </div>
             <h1 className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text"
               style={{ backgroundImage: "linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-2) 100%)" }}>
-              Event Snap
+              SnapWall
             </h1>
             <p className="text-base" style={{ color: "rgba(240,239,248,0.5)" }}>
               Sự kiện của bạn, qua góc nhìn của mọi người.
@@ -181,7 +181,7 @@ export default function Home() {
               <div className="flex flex-col gap-3">
                 <button
                   onClick={() => {
-                    localStorage.setItem(`event_snap_host_${generatedId}`, "true");
+                    localStorage.setItem(`snap_wall_host_${generatedId}`, "true");
                     router.push(`/dashboard/${generatedId}`);
                   }}
                   className="w-full py-3.5 rounded-2xl font-bold text-white flex items-center justify-center gap-2 transition-all active:scale-95"

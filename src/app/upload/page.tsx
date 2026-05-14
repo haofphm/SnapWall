@@ -91,7 +91,7 @@ export default function UploadPage({ searchParams }: Props) {
         <header className="w-full max-w-sm mx-auto text-center pt-10 pb-6">
           <h1 className="text-2xl font-extrabold text-transparent bg-clip-text"
             style={{ backgroundImage: "linear-gradient(135deg, var(--color-primary), var(--color-primary-2))" }}>
-            Event Snap
+            SnapWall
           </h1>
           <p className="text-sm mt-1" style={{ color: "rgba(240,239,248,0.4)" }}>
           Lưu giữ khoảnh khắc cùng nhau

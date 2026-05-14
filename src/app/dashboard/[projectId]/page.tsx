@@ -71,7 +71,7 @@ export default function DashboardPage({ params }: Props) {
   // ── Init ──────────────────────────────────────────────────
   // Đọc localStorage và window SAU KHI mount để tránh Hydration Mismatch
   useEffect(() => {
-    setIsHost(localStorage.getItem(`event_snap_host_${projectId}`) === "true");
+    setIsHost(localStorage.getItem(`snap_wall_host_${projectId}`) === "true");
     setColWidth(window.innerWidth < 640 ? 150 : 250);
 
     const onResize = () => setColWidth(window.innerWidth < 640 ? 150 : 250);
@@ -219,7 +219,7 @@ export default function DashboardPage({ params }: Props) {
           <div className="flex items-center gap-3 flex-1 min-w-0">
             <span className="font-extrabold text-transparent bg-clip-text text-base md:text-lg whitespace-nowrap"
               style={{ backgroundImage: "linear-gradient(135deg, var(--color-primary), var(--color-primary-2))" }}>
-              Event Snap
+              SnapWall
             </span>
 
             {/* LIVE badge — admin can toggle, others see read-only */}
