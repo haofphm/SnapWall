@@ -103,9 +103,9 @@ export default function UploadForm({ projectId }: UploadFormProps) {
         </div>
 
         <div>
-          <h2 className="text-2xl font-bold text-white">Tuyệt vời rồi!</h2>
+          <h2 className="text-2xl font-bold text-white">Ảnh đã được gửi</h2>
           <p className="text-white/60 mt-1 text-sm">
-            Khoảnh khắc của bạn đã lên màn hình lớn
+            Ảnh của bạn đang chờ hiển thị trên thư viện ảnh sự kiện
           </p>
         </div>
 
@@ -125,7 +125,7 @@ export default function UploadForm({ projectId }: UploadFormProps) {
             className="w-full py-3.5 rounded-2xl font-bold text-white/80 text-center transition-all active:scale-95 block"
             style={{ background: "var(--color-surface-2)", border: "1px solid var(--glass-border)" }}
           >
-            Xem thư viện
+            Xem thư viện ảnh
           </Link>
         </div>
       </div>
@@ -158,13 +158,13 @@ export default function UploadForm({ projectId }: UploadFormProps) {
               onChange={(e) => setCaption(e.target.value)}
               onFocus={() => setNameFocused(true)}
               onBlur={() => setNameFocused(false)}
-              placeholder="Bạn muốn nhắn nhủ gì không?"
+              placeholder="Thêm lời nhắn cho ảnh của bạn"
               className="flex-1 bg-transparent text-white placeholder-white/30 text-sm font-medium outline-none"
               disabled={stage === "uploading"}
             />
           </div>
         </div>
-        <p className="text-white/30 text-[11px] mt-1.5 ml-1">Nội dung sẽ hiện cùng với ảnh</p>
+        <p className="text-white/30 text-[11px] mt-1.5 ml-1">Lời nhắn sẽ hiển thị cùng ảnh trên sự kiện</p>
       </div>
 
       {/* ── Hidden file input ──────────────────────────── */}
@@ -254,7 +254,7 @@ export default function UploadForm({ projectId }: UploadFormProps) {
             </div>
             <div className="text-center">
               <p className="text-white/80 font-semibold text-sm">Chụp ảnh hoặc chọn từ thư viện</p>
-              <p className="text-white/30 text-xs mt-1">Nhấn để mở máy ảnh</p>
+              <p className="text-white/30 text-xs mt-1">Nhấn để mở camera hoặc thư viện ảnh</p>
             </div>
           </button>
         )}
@@ -289,7 +289,7 @@ export default function UploadForm({ projectId }: UploadFormProps) {
             Đang gửi lên...
           </span>
         ) : (
-          "Gửi ảnh ngay"
+          "Gửi ảnh"
         )}
       </button>
 
@@ -298,7 +298,7 @@ export default function UploadForm({ projectId }: UploadFormProps) {
         href={`/dashboard/${projectId}`}
         className="w-full py-3.5 rounded-2xl font-bold text-white/40 text-center transition-all hover:text-white/70 active:scale-95 block text-sm"
       >
-        Quay lại Dashboard
+        Quay lại thư viện ảnh
       </Link>
     </div>
   );

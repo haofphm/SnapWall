@@ -62,7 +62,7 @@ export default function DashboardPage({ params }: Props) {
   const touchStartX = useRef<number | null>(null);
 
   const PAGE_SIZE  = 10;
-  const MOCK_TOTAL = 100; // Set >0 for testing
+  const MOCK_TOTAL = 0; // Set >0 for testing
 
   const deviceId = useDeviceId();
 
@@ -282,14 +282,14 @@ export default function DashboardPage({ params }: Props) {
                   ? { background: "rgba(74,222,128,0.15)", color: "var(--color-live)", border: "1px solid rgba(74,222,128,0.3)" }
                   : { background: "rgba(244,63,94,0.15)", color: "#F43F5E", border: "1px solid rgba(244,63,94,0.35)" }
                 }
-                title={isLive ? "Nhấn để tắt sự kiện" : "Nhấn để bật lại sự kiện"}
+                title={isLive ? "Nhấn để tạm dừng nhận ảnh" : "Nhấn để mở lại nhận ảnh"}
               >
                 <span className="w-1.5 h-1.5 rounded-full inline-block"
                   style={isLive
                     ? { background: "var(--color-live)", animation: "glow-pulse 1.5s infinite" }
                     : { background: "#F43F5E" }
                   } />
-                {isLive ? "LIVE" : "OFF"}
+                {isLive ? "ĐANG MỞ" : "TẠM DỪNG"}
               </button>
             ) : (
               <span className="flex items-center gap-1.5 text-[10px] font-bold px-2.5 py-1 rounded-full"
@@ -303,7 +303,7 @@ export default function DashboardPage({ params }: Props) {
                     ? { background: "var(--color-live)", animation: "glow-pulse 1.5s infinite" }
                     : { background: "#F43F5E" }
                   } />
-                {isLive ? "LIVE" : "OFF"}
+                {isLive ? "ĐANG MỞ" : "TẠM DỪNG"}
               </span>
             )}
 
@@ -354,7 +354,7 @@ export default function DashboardPage({ params }: Props) {
           <div>
             <div className="inline-flex items-center gap-2 text-[10px] font-bold px-2 py-1 rounded-lg mb-3"
               style={{ background: "rgba(124,106,246,0.1)", color: "var(--color-primary)", border: "1px solid rgba(124,106,246,0.2)" }}>
-              EVENT DASHBOARD
+              THƯ VIỆN ẢNH SỰ KIỆN
             </div>
             <h2 className="text-4xl md:text-6xl font-black text-white tracking-tight leading-none">
               {projectId}
@@ -394,7 +394,7 @@ export default function DashboardPage({ params }: Props) {
 
             {/* 3-step mini guide */}
             <div className="flex items-center gap-3 mt-6 mb-8 text-xs" style={{ color: "rgba(240,239,248,0.35)" }}>
-              {["Quét QR", "Chụp ảnh", "Chia sẻ"].map((label, i) => (
+              {["Quét QR", "Chụp ảnh", "Gửi ảnh"].map((label, i) => (
                 <div key={i} className="flex items-center gap-3">
                   <div className="flex flex-col items-center gap-1.5">
                     <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold" style={{ background: "rgba(124,106,246,0.15)", color: "var(--color-primary)", border: "1px solid rgba(124,106,246,0.25)" }}>
@@ -416,7 +416,7 @@ export default function DashboardPage({ params }: Props) {
                   boxShadow: "0 0 20px rgba(124,106,246,0.4)",
                 }}
               >
-                Chia sẻ QR code
+                Chia sẻ mã QR
               </button>
             )}
           </div>
@@ -461,13 +461,13 @@ export default function DashboardPage({ params }: Props) {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
-            <h2 className="text-xl font-bold text-white text-center mb-1">Quét để tham gia</h2>
+            <h2 className="text-xl font-bold text-white text-center mb-1">Quét để gửi ảnh</h2>
 
             <div className="bg-white p-4 rounded-2xl flex justify-center mb-4">
               <QRCodeDisplay projectId={projectId} size={260} />
             </div>
             <p className="text-center text-xs animate-pulse" style={{ color: "var(--color-primary)" }}>
-              Đang phát trực tiếp...
+              Sẵn sàng nhận ảnh
             </p>
           </div>
         </div>

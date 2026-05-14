@@ -94,7 +94,7 @@ export default function UploadPage({ searchParams }: Props) {
             SnapWall
           </h1>
           <p className="text-sm mt-1" style={{ color: "rgba(240,239,248,0.4)" }}>
-          Lưu giữ khoảnh khắc cùng nhau
+          Chia sẻ khoảnh khắc của bạn
           </p>
         </header>
 
