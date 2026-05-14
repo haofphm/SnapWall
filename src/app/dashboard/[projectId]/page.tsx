@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, use, useCallback, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { fetchPhotosPage, subscribeToNewPhotos, toggleLikePhoto, setProjectLive, subscribeToProjectLive, subscribeToPhotoChanges } from "@/lib/firestore";
 import type { DocumentSnapshot } from "firebase/firestore";
 import { useDeviceId } from "@/hooks/useDeviceId";
@@ -36,6 +37,7 @@ const generateMockPhotos = (count: number, projectId: string): Photo[] =>
 export default function DashboardPage({ params }: Props) {
   const { projectId } = use(params);
 
+  const router = useRouter();
   const [photos, setPhotos]           = useState<Photo[]>([]);
   const [loading, setLoading]         = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -60,7 +62,7 @@ export default function DashboardPage({ params }: Props) {
   const touchStartX = useRef<number | null>(null);
 
   const PAGE_SIZE  = 10;
-  const MOCK_TOTAL = 0; // Set >0 for testing
+  const MOCK_TOTAL = 100; // Set >0 for testing
 
   const deviceId = useDeviceId();
 
@@ -204,20 +206,69 @@ export default function DashboardPage({ params }: Props) {
 
 
 
-      {/* ── Sticky Glass Header ── */}
-      <header
-        className={`sticky top-0 z-30 transition-all duration-300 ${isScrolled ? "animate-slideDown shadow-xl" : ""}`}
-        style={isScrolled ? {
-          background: "var(--glass-bg)",
-          backdropFilter: "blur(var(--glass-blur))",
-          WebkitBackdropFilter: "blur(var(--glass-blur))",
-          borderBottom: "1px solid var(--glass-border)",
-        } : { background: "transparent" }}
+      {/* ── Fixed Bottom Actions (Split Corners) ── */}
+      {/* Left: Brand */}
+      <div 
+        className={`fixed bottom-6 left-6 z-40 transition-all duration-500 ${isScrolled ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0 pointer-events-none"}`}
       >
-        <div className="max-w-7xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between gap-4">
-          {/* Brand */}
-          <div className="flex items-center gap-3 flex-1 min-w-0">
-            <span className="font-extrabold text-transparent bg-clip-text text-base md:text-lg whitespace-nowrap"
+        <div className="rounded-2xl px-4 py-2.5 shadow-2xl border border-white/10"
+          style={{ 
+            background: "rgba(15, 15, 20, 0.85)", 
+            backdropFilter: "blur(20px)",
+            WebkitBackdropFilter: "blur(20px)",
+          }}>
+          <span className="font-black text-transparent bg-clip-text text-base tracking-tighter"
+            style={{ backgroundImage: "linear-gradient(135deg, var(--color-primary), var(--color-primary-2))" }}>
+            SnapWall
+          </span>
+        </div>
+      </div>
+
+      {/* Right: Actions */}
+      <div 
+        className={`fixed bottom-6 right-6 z-40 transition-all duration-500 ${isScrolled ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0 pointer-events-none"}`}
+      >
+        <div className="rounded-2xl p-2 flex flex-col items-center gap-2 shadow-2xl border border-white/10"
+          style={{ 
+            background: "rgba(15, 15, 20, 0.85)", 
+            backdropFilter: "blur(20px)",
+            WebkitBackdropFilter: "blur(20px)",
+          }}>
+          <button
+            onClick={() => router.push(`/upload?projectId=${projectId}`)}
+            className="p-2.5 rounded-xl text-white transition-all active:scale-95"
+            style={{ background: "var(--color-surface-2)", border: "1px solid var(--glass-border)" }}
+            title="Gửi ảnh"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </button>
+          {isHost && (
+            <button
+              onClick={() => setShowQRModal(true)}
+              className="p-2 rounded-xl text-white transition-all active:scale-95"
+              style={{ 
+                background: "linear-gradient(135deg, var(--color-primary), var(--color-primary-2))",
+              }}
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm14 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
+              </svg>
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* ── Transparent Top Header (Only for Brand when at top) ── */}
+      <header
+        className={`fixed top-0 left-0 right-0 z-30 transition-all duration-300 ${isScrolled ? "opacity-0 -translate-y-full" : "opacity-100 translate-y-0"}`}
+      >
+        <div className="max-w-7xl mx-auto px-4 md:px-6 py-2 flex items-center justify-between gap-4">
+          {/* Brand & Badge */}
+          <div className="flex items-center gap-3">
+            <span className="font-black text-transparent bg-clip-text text-lg md:text-xl tracking-tighter"
               style={{ backgroundImage: "linear-gradient(135deg, var(--color-primary), var(--color-primary-2))" }}>
               SnapWall
             </span>
@@ -226,14 +277,14 @@ export default function DashboardPage({ params }: Props) {
             {isHost ? (
               <button
                 onClick={() => setProjectLive(projectId, !isLive)}
-                className="flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-full transition-all duration-200 active:scale-95 cursor-pointer hover:opacity-80"
+                className="flex items-center gap-1.5 text-[10px] font-bold px-2.5 py-1 rounded-full transition-all duration-200 active:scale-95 cursor-pointer hover:opacity-80"
                 style={isLive
                   ? { background: "rgba(74,222,128,0.15)", color: "var(--color-live)", border: "1px solid rgba(74,222,128,0.3)" }
                   : { background: "rgba(244,63,94,0.15)", color: "#F43F5E", border: "1px solid rgba(244,63,94,0.35)" }
                 }
                 title={isLive ? "Nhấn để tắt sự kiện" : "Nhấn để bật lại sự kiện"}
               >
-                <span className="w-2 h-2 rounded-full inline-block"
+                <span className="w-1.5 h-1.5 rounded-full inline-block"
                   style={isLive
                     ? { background: "var(--color-live)", animation: "glow-pulse 1.5s infinite" }
                     : { background: "#F43F5E" }
@@ -241,13 +292,13 @@ export default function DashboardPage({ params }: Props) {
                 {isLive ? "LIVE" : "OFF"}
               </button>
             ) : (
-              <span className="flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-full"
+              <span className="flex items-center gap-1.5 text-[10px] font-bold px-2.5 py-1 rounded-full"
                 style={isLive
                   ? { background: "rgba(74,222,128,0.15)", color: "var(--color-live)", border: "1px solid rgba(74,222,128,0.3)" }
                   : { background: "rgba(244,63,94,0.15)", color: "#F43F5E", border: "1px solid rgba(244,63,94,0.35)" }
                 }
               >
-                <span className="w-2 h-2 rounded-full inline-block"
+                <span className="w-1.5 h-1.5 rounded-full inline-block"
                   style={isLive
                     ? { background: "var(--color-live)", animation: "glow-pulse 1.5s infinite" }
                     : { background: "#F43F5E" }
@@ -258,8 +309,25 @@ export default function DashboardPage({ params }: Props) {
 
 
           </div>
+          
+          <div className="flex items-center gap-2">
+            {/* Quick Upload button for everyone */}
+            <button
+              onClick={() => router.push(`/upload?projectId=${projectId}`)}
+              className="flex items-center gap-2 px-3 py-2 rounded-xl font-semibold text-xs text-white transition-all active:scale-95"
+              style={{
+                background: "var(--color-surface-2)",
+                border: "1px solid var(--glass-border)",
+              }}
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <span className="hidden sm:inline">Gửi ảnh</span>
+            </button>
 
-          {/* QR button for host */}
+            {/* QR button for host */}
           {isHost && (
             <button
               onClick={() => setShowQRModal(true)}
@@ -276,24 +344,34 @@ export default function DashboardPage({ params }: Props) {
               <span className="hidden sm:inline">Chia sẻ QR</span>
             </button>
           )}
+          </div>
         </div>
       </header>
 
-      {/* ── Page Hero (non-sticky) ── */}
-      {!isScrolled && (
-        <div className="px-4 md:px-8 pt-6 pb-4 max-w-7xl mx-auto">
-          <h1 className="text-3xl md:text-5xl font-extrabold text-transparent bg-clip-text"
-            style={{ backgroundImage: "linear-gradient(135deg, var(--color-primary), var(--color-primary-2))" }}>
-            Event Snap Gallery
-          </h1>
-          <p className="mt-1" style={{ color: "rgba(240,239,248,0.5)", fontSize: "0.95rem" }}>
-            Đang phát trực tiếp
-          </p>
+      {/* ── Page Hero ── */}
+      <div className="max-w-7xl mx-auto px-4 md:px-8 pt-20 pb-4 animate-fadeIn">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div>
+            <div className="inline-flex items-center gap-2 text-[10px] font-bold px-2 py-1 rounded-lg mb-3"
+              style={{ background: "rgba(124,106,246,0.1)", color: "var(--color-primary)", border: "1px solid rgba(124,106,246,0.2)" }}>
+              EVENT DASHBOARD
+            </div>
+            <h2 className="text-4xl md:text-6xl font-black text-white tracking-tight leading-none">
+              {projectId}
+            </h2>
+          </div>
+          
+          <div className="flex items-center gap-4 text-xs font-medium" style={{ color: "rgba(240,239,248,0.4)" }}>
+            <div className="flex flex-col items-end">
+              <span className="text-white font-bold text-lg">{photos.length}</span>
+              <span>KHOẢNH KHẮC</span>
+            </div>
+          </div>
         </div>
-      )}
+      </div>
 
       {/* ── Gallery ── */}
-      <main className="px-4 md:px-8 max-w-7xl mx-auto">
+      <main className="max-w-7xl mx-auto px-2 md:px-4 pt-8 pb-20">
         {loading ? (
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
             {Array.from({ length: 6 }).map((_, i) => (

@@ -38,8 +38,10 @@ export default function QRCodeDisplay({ projectId, size = 100 }: QRCodeDisplayPr
         level={"L"}
         marginSize={0}
       />
-      <div className="text-[10px] text-gray-800 font-bold mt-1 text-center">
-        Quét để gửi ảnh
+      <div className="flex flex-col items-center gap-1 mt-2">
+        <div className="text-[10px] text-gray-400 font-medium uppercase tracking-wider">Mã sự kiện</div>
+        <div className="text-xl font-black text-indigo-600 font-mono tracking-tighter">{projectId}</div>
+        <div className="text-[9px] text-gray-400 mt-0.5">Quét để gửi ảnh</div>
       </div>
     </div>
   );

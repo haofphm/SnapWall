@@ -292,6 +292,14 @@ export default function UploadForm({ projectId }: UploadFormProps) {
           "Gửi ảnh ngay"
         )}
       </button>
+
+      {/* Redirect to Dashboard Link */}
+      <Link
+        href={`/dashboard/${projectId}`}
+        className="w-full py-3.5 rounded-2xl font-bold text-white/40 text-center transition-all hover:text-white/70 active:scale-95 block text-sm"
+      >
+        Quay lại Dashboard
+      </Link>
     </div>
   );
 }

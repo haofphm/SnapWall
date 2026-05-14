@@ -20,7 +20,7 @@ export default function Home() {
   const router = useRouter();
 
   const handleGenerate = () => {
-    const id = projectId.trim() || Math.random().toString(36).substring(2, 8).toUpperCase();
+    const id = Math.random().toString(36).substring(2, 8).toUpperCase();
     setGeneratedId(id);
   };
 
@@ -104,33 +104,49 @@ export default function Home() {
               </div>
 
               {mode === "create" ? (
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-xs font-medium mb-2" style={{ color: "rgba(240,239,248,0.5)" }}>
-                      Mã sự kiện (để trống để tạo ngẫu nhiên)
-                    </label>
-                    <input
-                      type="text"
-                      value={projectId}
-                      onChange={(e) => setProjectId(e.target.value)}
-                      onKeyDown={(e) => e.key === "Enter" && handleGenerate()}
-                      placeholder="VD: MY-WEDDING-2025"
-                      className="w-full px-4 py-3.5 rounded-2xl text-white text-center font-mono tracking-widest text-sm outline-none transition-all"
-                      style={{
-                        background: "var(--color-bg)",
-                        border: "1px solid var(--glass-border)",
-                      }}
-                      onFocus={e => { e.currentTarget.style.borderColor = "rgba(124,106,246,0.6)"; e.currentTarget.style.boxShadow = "0 0 0 3px rgba(124,106,246,0.12)"; }}
-                      onBlur={e => { e.currentTarget.style.borderColor = "var(--glass-border)"; e.currentTarget.style.boxShadow = "none"; }}
-                    />
+                <div className="space-y-8 py-6 text-center animate-fadeIn">
+                  {/* Visual Icon */}
+                  <div className="relative mx-auto w-20 h-20 rounded-3xl flex items-center justify-center transform rotate-12"
+                    style={{ background: "rgba(124,106,246,0.1)", border: "1px solid rgba(124,106,246,0.2)" }}>
+                    <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: "var(--color-primary)" }}>
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-7.714 2.143L11 21l-2.143-7.714L1 12l6.857-2.143L11 3z" />
+                    </svg>
+                    <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full animate-pulse" style={{ background: "var(--color-primary-2)" }} />
                   </div>
+
+                  <div className="space-y-2">
+                    <h3 className="text-2xl font-black text-white tracking-tight">Khởi tạo không gian</h3>
+                    <p className="text-sm px-4" style={{ color: "rgba(240,239,248,0.4)" }}>
+                      Tạo ngay một "bức tường ảnh" cho sự kiện của bạn chỉ trong một lần nhấn.
+                    </p>
+                  </div>
+
+                  {/* Feature Pills */}
+                  <div className="flex flex-wrap justify-center gap-2 px-2">
+                    {[
+                      { icon: "⚡", label: "Real-time" },
+                      { icon: "📱", label: "Mobile-first" },
+                      { icon: "🔒", label: "Private Room" }
+                    ].map((f, i) => (
+                      <span key={i} className="text-[10px] font-bold px-2.5 py-1 rounded-lg"
+                        style={{ background: "var(--color-surface-2)", color: "rgba(240,239,248,0.6)", border: "1px solid var(--glass-border)" }}>
+                        {f.icon} {f.label}
+                      </span>
+                    ))}
+                  </div>
+
                   <button onClick={handleGenerate}
-                    className="w-full py-4 rounded-2xl font-bold text-base text-white transition-all active:scale-95"
+                    className="w-full py-4.5 rounded-2xl font-bold text-base text-white transition-all active:scale-95 group relative overflow-hidden"
                     style={{
                       background: "linear-gradient(135deg, var(--color-primary), var(--color-primary-2))",
-                      boxShadow: "0 0 24px rgba(124,106,246,0.4)",
+                      boxShadow: "0 12px 32px rgba(124,106,246,0.4)",
                     }}>
-                    Tạo Sự Kiện Mới
+                    <span className="relative z-10 flex items-center justify-center gap-2">
+                      Bắt đầu sự kiện ngay
+                      <svg className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                      </svg>
+                    </span>
                   </button>
                 </div>
               ) : (
@@ -179,6 +195,19 @@ export default function Home() {
               </div>
 
               <div className="flex flex-col gap-3">
+                <button
+                  onClick={() => {
+                    localStorage.setItem(`snap_wall_host_${generatedId}`, "true");
+                    router.push(`/upload?projectId=${generatedId}`);
+                  }}
+                  className="w-full py-3.5 rounded-2xl font-bold text-white flex items-center justify-center gap-2 transition-all active:scale-95"
+                  style={{ background: "var(--color-surface-2)", border: "1px solid var(--glass-border)" }}>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  Vào trang chụp ảnh
+                </button>
                 <button
                   onClick={() => {
                     localStorage.setItem(`snap_wall_host_${generatedId}`, "true");
